@@ -100,3 +100,5 @@ class Ui_MainWindow(object):
         self.label_3.setText(_translate("MainWindow", "How do plan to finish all this shit"))
         self.buttonchangebacktotodolist.setText(_translate("MainWindow", "Chuyển về to do list"))
         self.buttonremoveindone.setText(_translate("MainWindow", "Xóa"))
+
+
