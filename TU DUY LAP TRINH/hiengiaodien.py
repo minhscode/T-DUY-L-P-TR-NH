@@ -34,7 +34,8 @@ class MainWindow(QMainWindow):
         datatodolist = []
         self.todolist.setStringList(datatodolist)
         self.ui.todolist_list.setModel(self.todolist)
-        self.current_index = None
+        self.todolist_index = None
+        self.donelist_index = None
     #Done page
         self.tasktracker = QStringListModel()
         datadone = []
@@ -76,12 +77,31 @@ class MainWindow(QMainWindow):
         self.ui.bntremove.hide()
         self.ui.buttonchangetodone.hide()
     #DONE FUNCTION:
-    def show_delete(self):
-        pass
+    def show_delete(self, index):
+        self.donelist_index = index
+        self.ui.buttonremoveindone.show()
+        self.ui.buttonchangebacktotodolist.show()
     def delete_item(self):
-        pass
+        if self.donelist_index is None:
+            return
+        done_List = self.tasktracker.stringList()
+        del done_List[self.donelist_index.row()]
+        self.tasktracker.setStringList(done_List)
+        self.ui.buttonchangebacktotodolist.hide()
+        self.ui.buttonremoveindone.hide()
     def add_to_todolist(self):
-        pass
+        todolist_list = self.todolist.stringList()
+        done_list = self.tasktracker.stringList()
+        if self.donelist_index is None:
+            return
+        value = self.donelist_index.data()
+        todolist_list.append(value)
+        del done_list[self.donelist_index.row()]
+        self.todolist.setStringList(todolist_list)
+        self.tasktracker.setStringList(done_list)
+        self.ui.buttonremoveindone.hide()
+        self.ui.buttonchangebacktotodolist.hide()
+
 
     #TRANG CHINH
     def home_page(self, index):
