@@ -54,8 +54,8 @@ class MainWindow(QMainWindow):
     def connection(self):
 
     #Well well well button to change page
-        self.ui.todolistbutton.clicked.connect(lambda: self.home_page(0) )
-        self.ui.donebutton.clicked.connect(lambda: self.home_page(1) )
+        self.ui.todolistbutton.clicked.connect(lambda: self.home_page(0) ) #Vị trí page
+        self.ui.donebutton.clicked.connect(lambda: self.home_page(1) )   #Vị trí page
 
     #Button to interact with the page
         self.ui.addbut.clicked.connect(self.add_item)
@@ -64,10 +64,10 @@ class MainWindow(QMainWindow):
         self.ui.button_to_done.clicked.connect(self.additemtodone)
         self.ui.button_to_todo.clicked.connect(self.add_to_todolist)
         self.ui.removebutdone.clicked.connect(self.delete_item)
-        self.ui.listcvhoanthanh.clicked.connect(self.show_delete) #KHI BAM VAO LISTCV SE HIEN CHUC NANG
+        self.ui.listcvhoanthanh.clicked.connect(self.show_delete) #KHI BAM VAO LISTCVHOANTHANH SE HIEN CHUC NANG
         self.ui.remarkablebut.clicked.connect(self.add_to_prior)
         self.ui.unmarkbutton.clicked.connect(self.add_back_todolist)
-        self.ui.listcvquantrong.clicked.connect(self.show_prior) #KHIBAM VAO LISTCV SE HIEN CHUC NANG
+        self.ui.listcvquantrong.clicked.connect(self.show_prior) #KHI BAM VAO LISTCVQUANTRONG SE HIEN CHUC NANG
         self.ui.removebutprior.clicked.connect(self.erase_item_in_prior)
         self.ui.editbut.clicked.connect(self.edit)
 
@@ -95,7 +95,6 @@ class MainWindow(QMainWindow):
         self.ui.removebut.hide()
         self.ui.button_to_done.hide()
         self.ui.remarkablebut.hide()
-
 
     #LUU VI TRI DE XOA/CHUYEN DU LIEU QUA DONE
     def show_item(self, index):
