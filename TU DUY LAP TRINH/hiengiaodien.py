@@ -19,7 +19,8 @@ class MainWindow(QMainWindow):
         self.ui.removebutdone.hide()
         self.ui.button_to_todo.hide()
         self.ui.unmarkbutton.hide()
-        #self.ui.editbut.hide()
+        self.ui.editbut.hide()
+
 
         # Todolist page
         self.todolist = QStringListModel()
@@ -34,10 +35,12 @@ class MainWindow(QMainWindow):
         self.done.setStringList(datadone)
         self.ui.listcvhoanthanh.setModel(self.done)
         self.donelist_index = None
+
         #RANDOM CÂU TRUYỀN ĐỘNG LỰC
         randoms = "No"
         self.ui.linetruyendongluc.setText(motivation(randoms))
         self.connection()
+
         #PRIORITY
         self.prioritytask = QStringListModel()
         dataprior = []
@@ -57,15 +60,16 @@ class MainWindow(QMainWindow):
     #Button to interact with the page
         self.ui.addbut.clicked.connect(self.add_item)
         self.ui.removebut.clicked.connect(self.remove_item)
-        self.ui.listcv.clicked.connect(self.show_item) #KHI BAM VAO LIST SE HIEN CHUC NANG
+        self.ui.listcv.clicked.connect(self.show_item) #KHI BAM VAO LISTCV SE HIEN CHUC NANG
         self.ui.button_to_done.clicked.connect(self.additemtodone)
         self.ui.button_to_todo.clicked.connect(self.add_to_todolist)
         self.ui.removebutdone.clicked.connect(self.delete_item)
-        self.ui.listcvhoanthanh.clicked.connect(self.show_delete)
+        self.ui.listcvhoanthanh.clicked.connect(self.show_delete) #KHI BAM VAO LISTCV SE HIEN CHUC NANG
         self.ui.remarkablebut.clicked.connect(self.add_to_prior)
         self.ui.unmarkbutton.clicked.connect(self.add_back_todolist)
-        self.ui.listcvquantrong.clicked.connect(self.show_prior)
+        self.ui.listcvquantrong.clicked.connect(self.show_prior) #KHIBAM VAO LISTCV SE HIEN CHUC NANG
         self.ui.removebutprior.clicked.connect(self.erase_item_in_prior)
+        self.ui.editbut.clicked.connect(self.edit)
 
     #TO DO LIST FUNCTION:
     def add_item(self):
@@ -74,6 +78,24 @@ class MainWindow(QMainWindow):
         current_list = self.todolist.stringList()
         current_list.append(adding)
         self.todolist.setStringList(current_list)
+    def edit(self):
+        if self.todolist_index is None:
+            QMessageBox.warning(self, "Lỗi", "Chưa chọn gì cả")
+            return
+        current_list = self.todolist.stringList()
+        new = self.ui.fill.text()
+        if not new:
+            QMessageBox.warning(self,"Lỗi", "Chưa nhập gì cả")
+            return
+        current_list[self.todolist_index.row()] = new
+        self.todolist.setStringList(current_list)
+        self.todolist_index = None
+        self.ui.editbut.hide()
+        self.ui.addbut.show()
+        self.ui.removebut.hide()
+        self.ui.button_to_done.hide()
+        self.ui.remarkablebut.hide()
+
 
     #LUU VI TRI DE XOA/CHUYEN DU LIEU QUA DONE
     def show_item(self, index):
@@ -82,6 +104,10 @@ class MainWindow(QMainWindow):
         self.ui.button_to_done.show()
         self.ui.remarkablebut.show()
         self.todolist_index = index
+        value = self.todolist_index.data()
+        self.ui.fill.setText(value)
+        self.ui.addbut.hide()
+        self.ui.editbut.show()
 
     #CHUC NANG XOA
     def remove_item(self):
@@ -94,6 +120,8 @@ class MainWindow(QMainWindow):
         self.ui.removebut.hide()
         self.ui.button_to_done.hide()
         self.ui.remarkablebut.hide()
+        self.ui.editbut.hide()
+        self.ui.addbut.show()
 
     #CHUYEN DU LIEU QUA DONE
     def additemtodone(self):
@@ -109,9 +137,12 @@ class MainWindow(QMainWindow):
         del to_do_list[self.todolist_index.row()]
         self.todolist.setStringList(to_do_list)
         self.done.setStringList(done_list)
+
         self.ui.removebut.hide()
         self.ui.button_to_done.hide()
         self.ui.remarkablebut.hide()
+        self.ui.editbut.hide()
+        self.ui.addbut.show()
         self.ui.listcv.clearSelection()
 
     def add_to_prior(self):
@@ -127,6 +158,8 @@ class MainWindow(QMainWindow):
         self.ui.removebut.hide()
         self.ui.remarkablebut.hide()
         self.ui.button_to_done.hide()
+        self.ui.editbut.hide()
+        self.ui.addbut.show()
 
     #PRIORITY FUNCTION:
     def show_prior(self, index):
